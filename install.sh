@@ -19,8 +19,6 @@ sudo make install
 cd -
 sudo rm -rf /usr/local/src/tmux-*
 sudo mv tmux-${VERSION} /usr/local/src
-if [ $? -eq 0 ]; then echo -e "[\e[32mOK\e[0m] ok "; \
-else echo -e "[\e[31mERROR\e[0m] bed " >&2; exit 1; fi
 
 tmux kill-server
 
