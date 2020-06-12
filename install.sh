@@ -6,7 +6,7 @@
 # Takes < 25 seconds on EC2 env [even on a low-end config instance].
 VERSION=3.1
 sudo apt-get -y remove tmux
-sudo apt-get -y install gcc wget tar libevent-dev libncurses-dev
+sudo apt-get -y install gcc wget tar libevent-dev libncurses-dev make
 sudo apt-get install -f -y
 sudo apt-get -y install wget tar libevent-dev libncurses-dev
 wget https://github.com/tmux/tmux/releases/download/${VERSION}/tmux-${VERSION}.tar.gz
@@ -22,7 +22,7 @@ sudo mv tmux-${VERSION} /usr/local/src
 if [ $? -eq 0 ]; then echo -e "[\e[32mOK\e[0m] ok "; \
 else echo -e "[\e[31mERROR\e[0m] bed " >&2; exit 1; fi
 
-#tmux kill-server
+tmux kill-server
 
 
 ## Logout and login to the shell again and run.
