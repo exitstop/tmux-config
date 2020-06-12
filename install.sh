@@ -4,23 +4,32 @@
 
 # Steps to build and install tmux from source on Ubuntu.
 # Takes < 25 seconds on EC2 env [even on a low-end config instance].
-VERSION=3.1
-sudo apt-get -y remove tmux
-sudo apt-get -y install gcc wget tar libevent-dev libncurses-dev make
-sudo apt-get install -f -y
-sudo apt-get -y install wget tar libevent-dev libncurses-dev
-wget https://github.com/tmux/tmux/releases/download/${VERSION}/tmux-${VERSION}.tar.gz
-tar xf tmux-${VERSION}.tar.gz
-rm -f tmux-${VERSION}.tar.gz
-cd tmux-${VERSION}
-./configure
-make
-sudo make install
-cd -
-sudo rm -rf /usr/local/src/tmux-*
-sudo mv tmux-${VERSION} /usr/local/src
+function IsPackageInstalled() {
+    dpkg -s "$1" > /dev/null 2>&1
+}
 
-tmux kill-server
+packages="tmux"
+for package in $packages; do
+        if ! IsPackageInstalled $package; then
+                VERSION=3.1
+                sudo apt-get -y remove tmux
+                sudo apt-get -y install gcc wget tar libevent-dev libncurses-dev make
+                sudo apt-get install -f -y
+                sudo apt-get -y install wget tar libevent-dev libncurses-dev
+                wget https://github.com/tmux/tmux/releases/download/${VERSION}/tmux-${VERSION}.tar.gz
+                tar xf tmux-${VERSION}.tar.gz
+                rm -f tmux-${VERSION}.tar.gz
+                cd tmux-${VERSION}
+                ./configure
+                make
+                sudo make install
+                cd -
+                sudo rm -rf /usr/local/src/tmux-*
+                sudo mv tmux-${VERSION} /usr/local/src
+
+                tmux kill-server
+        fi
+done
 
 
 ## Logout and login to the shell again and run.
@@ -61,7 +70,7 @@ ln -sf .tmux/tmux.conf "$HOME"/.tmux.conf;
 # TPM requires running tmux server, as soon as `tmux start-server` does not work
 # create dump __noop session in detached mode, and kill it when plugins are installed
 printf "Install TPM plugins\n"
-tmux new -d -s __noop >/dev/null 2>&1 || true 
+tmux new -d -s __noop >/dev/null 2>&1 || true
 tmux set-environment -g TMUX_PLUGIN_MANAGER_PATH "~/.tmux/plugins"
 "$HOME"/.tmux/plugins/tpm/bin/install_plugins || true
 tmux kill-session -t __noop >/dev/null 2>&1 || true
