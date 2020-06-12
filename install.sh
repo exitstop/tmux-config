@@ -22,10 +22,7 @@ sudo mv tmux-${VERSION} /usr/local/src
 if [ $? -eq 0 ]; then echo -e "[\e[32mOK\e[0m] ok "; \
 else echo -e "[\e[31mERROR\e[0m] bed " >&2; exit 1; fi
 
-tmux kill-server
-if [ $? -eq 0 ]; then echo -e "[\e[32mOK\e[0m] ok "; \
-else echo -e "[\e[31mERROR\e[0m] tmux not found" >&2; fi
-echo ok
+#tmux kill-server
 
 
 ## Logout and login to the shell again and run.
