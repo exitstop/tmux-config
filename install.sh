@@ -8,11 +8,18 @@ function IsPackageInstalled() {
     dpkg -s "$1" > /dev/null 2>&1
 }
 
+ARG_1=$1
+if [ -z "$ARG_1" ]; then
+    echo "ARG_1 = empty; no install tmux"
+else
+    echo "remove tmux";
+    sudo apt-get -y remove tmux
+fi
+
 packages="tmux"
 for package in $packages; do
         if ! IsPackageInstalled $package; then
                 VERSION=3.1
-                sudo apt-get -y remove tmux
                 sudo apt-get -y install gcc wget tar libevent-dev libncurses-dev make
                 sudo apt-get install -f -y
                 sudo apt-get -y install wget tar libevent-dev libncurses-dev
