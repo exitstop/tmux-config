@@ -25,7 +25,7 @@ else
     rm -f tmux-${VERSION}.tar.gz
     cd tmux-${VERSION}
     ./configure
-    make
+    make -j$(nproc)
     sudo make install
     cd -
     sudo rm -rf /usr/local/src/tmux-*
