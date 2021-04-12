@@ -17,9 +17,19 @@ else
     sudo apt-get -y remove tmux
 
     VERSION=3.1
-    sudo apt-get -y install gcc wget tar libevent-dev libncurses-dev make
-    sudo apt-get install -f -y
-    sudo apt-get -y install wget tar libevent-dev libncurses-dev
+    sudo apt -y install gcc wget tar make
+    sudo apt install -f -y
+    sudo apt -y install wget tar 
+    sudo apt -y install libevent-dev
+    sudo apt -y install libncurses-dev
+
+    wget https://invisible-mirror.net/archives/ncurses/ncurses-6.2.tar.gz
+    tar -xzf ncurses-6.2.tar.gz
+    cd ncurses-6.2
+    ./configure
+    make -j$(nproc)
+    sudo make install
+
     wget https://github.com/tmux/tmux/releases/download/${VERSION}/tmux-${VERSION}.tar.gz
     tar xf tmux-${VERSION}.tar.gz
     rm -f tmux-${VERSION}.tar.gz
